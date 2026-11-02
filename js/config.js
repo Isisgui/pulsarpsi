@@ -9,7 +9,7 @@
  * consultar horários livres e criar um agendamento — nunca ler a planilha.
  */
 window.PULSAR_CONFIG = {
-  apiUrl: "https://script.google.com/macros/s/AKfycbxzC6KR0J4x-uD5nlcaqP7m43M9LnX2LDqqZUxkINldxQGeAp_IKuF_CfUzV3rZtyjd/exec",
+  apiUrl: "https://script.google.com/macros/s/AKfycbzrcN9dM_aTsB3ISCbcc2ahDJopN4MwB4wL-ft4h91ufLcvwWW7qF0NN5261xhrqnsz/exec",
 
   // Quantos dias à frente o calendário mostra. Mantenha igual a DAYS_AHEAD do Code.gs.
   daysAhead: 60,

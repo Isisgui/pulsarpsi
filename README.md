@@ -159,6 +159,10 @@ Em **Settings → Pages**, escolha **Deploy from a branch**, branch `main`, past
 | `Bloqueios` | Data (e horário, opcional) para fechar férias, feriados ou um horário pontual. |
 | `Agendamentos` | Preenchida pelo site. Mudar o **Status** para `cancelado` libera o horário de novo. |
 
+Status `revisar`: a pessoa (mesmo WhatsApp ou e-mail) já tinha 2 horários futuros. O site responde
+normalmente — para ninguém conseguir descobrir quem é paciente testando dados de outra pessoa —,
+o horário fica reservado e o e-mail chega com `[REVISAR]` no assunto. Confirme ou cancele.
+
 A cada novo agendamento chega um e-mail na conta dona da planilha (`NOTIFY_BY_EMAIL` em `Code.gs`).
 
 ## Segurança (repositório público)
@@ -172,8 +176,9 @@ A cada novo agendamento chega um e-mail na conta dona da planilha (`NOTIFY_BY_EM
   diagnóstico (`?action=health`) com versão, fusos e contagens — sem nomes, e-mails ou telefones.
 - **O site só envia dados para `script.google.com`** (`js/api.js` recusa qualquer outro endereço;
   servidor local só é aceito quando o próprio site está rodando local).
-- **Contra abuso**: campo-armadilha para robôs, no máximo 2 agendamentos futuros por
-  WhatsApp/e-mail e no máximo 15 agendamentos por hora (ajuste no topo do `Code.gs`).
+- **Contra abuso**: campo-armadilha para robôs, no máximo 15 agendamentos por hora e, a partir do
+  3º horário futuro do mesmo WhatsApp/e-mail, status `revisar` (ajuste no topo do `Code.gs`).
+- **O site nunca revela se alguém já é paciente**: a resposta é sempre a mesma.
 - Os dados de pacientes ficam só na planilha e no e-mail da psicóloga. Mantenha a planilha
   sem compartilhamento e a conta Google com verificação em duas etapas.
 - Para cortar o acesso a qualquer momento: **Implantar → Gerenciar implantações → Arquivar**.

@@ -24,13 +24,16 @@
  * e `teste` (mostra o diagnóstico). As demais terminam em "_" e ficam ocultas.
  */
 
-var VERSION = '2026-11-02.2';
+var VERSION = '2026-11-02.3';
 
 var DAYS_AHEAD = 60;              // até quantos dias à frente o site mostra
 var MIN_NOTICE_HOURS = 12;        // antecedência mínima para agendar
 var NOTIFY_BY_EMAIL = true;       // e-mail para a dona da planilha a cada agendamento
 
 // Proteção contra abuso (o endereço do App da Web é público).
+// Acima disso o agendamento é salvo com status "revisar" (e avisado no e-mail),
+// mas a resposta ao site é idêntica à de um agendamento normal: assim ninguém
+// descobre, testando o WhatsApp/e-mail de outra pessoa, se ela é paciente.
 var MAX_ACTIVE_PER_CONTACT = 2;   // agendamentos futuros ativos por WhatsApp/e-mail
 var MAX_BOOKINGS_PER_HOUR = 15;   // teto geral de novos agendamentos por hora
 var MODES = ['Online', 'Presencial'];
@@ -68,8 +71,7 @@ var MSG = {
   book: 'Não foi possível concluir o agendamento. Tente novamente.',
   taken: 'Esse horário acabou de ser reservado. Escolha outro, por favor.',
   busy: 'A agenda está ocupada agora. Tente de novo em instantes.',
-  hourly: 'Muitos agendamentos agora. Tente de novo mais tarde ou fale pelo WhatsApp.',
-  contact: 'Você já tem horários marcados. Para mudar ou marcar mais, fale comigo pelo WhatsApp.'
+  hourly: 'Muitos agendamentos agora. Tente de novo mais tarde ou fale pelo WhatsApp.'
 };
 
 /* ========================================================================== */
@@ -111,9 +113,10 @@ function doPost(e) {
     var ctx = context_();
     var result = withLock_(function () { return book_(ctx, data); });
     if (!result.ok) return json_(result);
+    // `result.status` fica só aqui no servidor: a resposta é sempre a mesma.
 
     if (NOTIFY_BY_EMAIL) {
-      try { notify_(data); } catch (mailErr) { log_('notify', mailErr); } // o agendamento já foi salvo
+      try { notify_(data, result.status); } catch (mailErr) { log_('notify', mailErr); } // o agendamento já foi salvo
     }
     return json_({ ok: true });
   } catch (err) {
@@ -189,15 +192,16 @@ function book_(ctx, d) {
   var active = readBookings_(ctx).filter(function (b) {
     return b.active && b.date >= todayKey && (b.phone === phone || b.email === email);
   }).length;
-  if (active >= MAX_ACTIVE_PER_CONTACT) return { ok: false, code: 'CONTACT_LIMIT', error: MSG.contact };
+  // Não recusa nem muda a resposta (isso revelaria quem já é paciente): só marca para revisão.
+  var status = active >= MAX_ACTIVE_PER_CONTACT ? 'revisar' : 'pendente';
 
   ctx.ss.getSheetByName(SHEET_BOOKINGS).appendRow([
     new Date(ctx.now.getTime()), d.date, d.time, clean_(d.name), clean_(d.phone),
-    clean_(email), clean_(d.mode), clean_(d.notes), 'pendente'
+    clean_(email), clean_(d.mode), clean_(d.notes), status
   ]);
   SpreadsheetApp.flush();
   cache.put(hourKey, String(count + 1), 3600);
-  return { ok: true };
+  return { ok: true, status: status };
 }
 
 /* ========================================================================== */
@@ -290,7 +294,7 @@ function ensureSheets_(ss) {
   var bookings = ensureSheet_(ss, SHEET_BOOKINGS, [], ['B:C']);
   bookings.getRange('I2:I').setDataValidation(
     SpreadsheetApp.newDataValidation()
-      .requireValueInList(['pendente', 'confirmado', 'cancelado'])
+      .requireValueInList(['pendente', 'revisar', 'confirmado', 'cancelado'])
       .setAllowInvalid(true)
       .build()
   );
@@ -375,10 +379,16 @@ function clean_(v) {
   return /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
 }
 
-function notify_(d) {
+function notify_(d, status) {
   var to = Session.getEffectiveUser().getEmail();
   if (!to) return;
-  MailApp.sendEmail(to, 'Novo agendamento: ' + d.date + ' às ' + d.time,
+  var review = status === 'revisar';
+  MailApp.sendEmail(to, (review ? '[REVISAR] ' : '') + 'Novo agendamento: ' + d.date + ' às ' + d.time,
+    (review
+      ? 'ATENÇÃO: este WhatsApp/e-mail já tinha ' + MAX_ACTIVE_PER_CONTACT + ' ou mais horários futuros.\n' +
+        'Pode ser a mesma pessoa marcando mais sessões, ou alguém usando os dados de outra pessoa.\n' +
+        'O horário fica reservado com status "revisar" até você confirmar ou cancelar.\n\n'
+      : '') +
     'Nome: ' + d.name + '\nWhatsApp: ' + d.phone + '\nE-mail: ' + d.email +
     '\nModalidade: ' + d.mode + '\nObservações: ' + (d.notes || '-') +
     '\n\nConfira a aba "' + SHEET_BOOKINGS + '" da planilha.');

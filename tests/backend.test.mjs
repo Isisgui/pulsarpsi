@@ -310,15 +310,29 @@ describe("agendamento", () => {
     assert.equal(gas.ss.data("Agendamentos")[0][3], "Ana  Souza");
   });
 
-  test("no máximo 2 horários futuros por pessoa (WhatsApp ou e-mail, em qualquer formato)", () => {
+  test("acima de 2 horários futuros por pessoa: mesma resposta, mas salvo como \"revisar\"", () => {
     const gas = ready();
-    assert.equal(gas.post(person({ time: "13:00" })).ok, true);
-    assert.equal(gas.post(person({ time: "14:00", phone: "11 988887777" })).ok, true);
+    assert.deepEqual(gas.post(person({ time: "13:00" })), { ok: true });
+    assert.deepEqual(gas.post(person({ time: "14:00", phone: "11 988887777" })), { ok: true });
+    // e-mail igual (outra caixa) e telefone igual (outro formato): resposta idêntica, sem revelar nada
     const third = gas.post(person({ time: "15:00", phone: "21900000000", email: "ANA@Example.com" }));
-    assert.equal(third.code, "CONTACT_LIMIT");
-    const byPhone = gas.post(person({ time: "15:00", phone: "+55 (11) 98888-7777".replace("+55 ", ""), email: "x@y.com" }));
-    assert.equal(byPhone.code, "CONTACT_LIMIT");
-    assert.equal(gas.post(person({ time: "15:00", phone: "21900000000", email: "outra@x.com" })).ok, true);
+    assert.deepEqual(third, { ok: true });
+    const byPhone = gas.post(person({ time: "16:00", phone: "(11) 98888-7777", email: "x@y.com" }));
+    assert.deepEqual(byPhone, { ok: true });
+    const other = gas.post(person({ time: "17:00", phone: "21911112222", email: "outra@x.com" }));
+    assert.deepEqual(other, { ok: true });
+
+    const status = gas.ss.data("Agendamentos").map((r) => [r[2], r[8]]);
+    assert.deepEqual(status, [["13:00", "pendente"], ["14:00", "pendente"], ["15:00", "revisar"], ["16:00", "revisar"], ["17:00", "pendente"]]);
+
+    // o horário "revisar" fica ocupado, igual a um normal (a disponibilidade também não revela nada)
+    const free = gas.get({ action: "availability", from: "2026-11-03", to: "2026-11-03" }).slots["2026-11-03"] || [];
+    for (const t of ["13:00", "14:00", "15:00", "16:00", "17:00"]) assert.ok(!free.includes(t), t);
+
+    // só a dona fica sabendo, pelo e-mail
+    const subjects = gas.mails.map((m) => m.subject);
+    assert.equal(subjects.filter((s) => s.startsWith("[REVISAR]")).length, 2);
+    assert.match(gas.mails[2].body, /revisar/);
   });
 
   test("agendamentos antigos não contam no limite por pessoa", () => {
