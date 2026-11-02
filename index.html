@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulsar Psicologia · Isis</title>
+  <meta name="description" content="Pulsar Psicologia — atendimento psicológico com Isis. Conheça meu trabalho e agende sua sessão online.">
+  <meta name="theme-color" content="#275C4C">
+  <meta property="og:title" content="Pulsar Psicologia">
+  <meta property="og:description" content="Atendimento psicológico. Agende sua sessão online.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..600,100,1&family=Italiana&family=Lora:ital,wght@0,400..600;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Ícones reutilizáveis -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="star-main" viewBox="-50 -50 100 100">
+      <path d="M0.00,-50.00 L1.22,-2.96 L9.90,-9.90 L2.96,-1.22 L26.00,0.00 L2.96,1.22 L9.90,9.90 L1.22,2.96 L0.00,50.00 L-1.22,2.96 L-9.90,9.90 L-2.96,1.22 L-26.00,0.00 L-2.96,-1.22 L-9.90,-9.90 L-1.22,-2.96Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="star-burst" viewBox="-50 -50 100 100">
+      <path d="M0.00,-50.00 L1.91,-4.62 L21.21,-21.21 L4.62,-1.91 L50.00,0.00 L4.62,1.91 L21.21,21.21 L1.91,4.62 L0.00,50.00 L-1.91,4.62 L-21.21,21.21 L-4.62,1.91 L-50.00,0.00 L-4.62,-1.91 L-21.21,-21.21 L-1.91,-4.62Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="sparkle" viewBox="-10 -10 20 20">
+      <path d="M0,-10 C1,-2 2,-1 10,0 C2,1 1,2 0,10 C-1,2 -2,1 -10,0 C-2,-1 -1,-2 0,-10Z" fill="currentColor"/>
+    </symbol>
+  </svg>
+
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <a class="skip-link" href="#agenda">Pular para o agendamento</a>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="topo">
+    <div class="hero__star" aria-hidden="true">
+      <svg class="hero__star-svg"><use href="#star-main"/></svg>
+    </div>
+
+    <h1 class="logo">
+      <span class="logo__pulsar">Pulsar</span>
+      <span class="logo__sub">Psicologia</span>
+    </h1>
+
+    <p class="hero__tagline reveal">Um espaço de escuta para você encontrar o seu próprio brilho.</p>
+
+    <a href="#agenda" class="btn btn--primary hero__cta reveal">
+      Agendar sessão
+      <svg class="btn__icon" aria-hidden="true"><use href="#sparkle"/></svg>
+    </a>
+
+    <a href="#sobre" class="scroll-hint" aria-label="Rolar para Sobre mim">
+      <span></span>
+    </a>
+  </header>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" id="nav" aria-label="Seções do site">
+    <div class="nav__inner">
+      <a href="#topo" class="nav__brand" aria-label="Voltar ao topo">
+        <svg aria-hidden="true"><use href="#star-main"/></svg>
+      </a>
+      <ul class="nav__list">
+        <li><a href="#sobre" class="nav__link">Sobre mim</a></li>
+        <li class="nav__sep" aria-hidden="true"><svg><use href="#star-burst"/></svg></li>
+        <li><a href="#agenda" class="nav__link">Agenda</a></li>
+        <li class="nav__sep" aria-hidden="true"><svg><use href="#star-burst"/></svg></li>
+        <li><a href="#links" class="nav__link">Links úteis</a></li>
+      </ul>
+      <span class="nav__indicator" aria-hidden="true"></span>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ============ SOBRE ============ -->
+    <section class="section about" id="sobre" aria-labelledby="sobre-titulo">
+      <div class="about__photo reveal">
+        <div class="frame">
+          <img src="assets/foto-isis.jpg" alt="Foto de Isis, psicóloga, sorrindo" width="308" height="426" loading="lazy">
+        </div>
+        <svg class="frame__sparkle frame__sparkle--l" aria-hidden="true"><use href="#sparkle"/></svg>
+        <svg class="frame__sparkle frame__sparkle--r" aria-hidden="true"><use href="#sparkle"/></svg>
+      </div>
+
+      <div class="about__text">
+        <h2 class="section-title reveal" id="sobre-titulo">Sobre mim</h2>
+        <!-- TODO: substituir pelo texto real da psicóloga -->
+        <p class="reveal">
+          Me chamo <strong>Isis</strong>, sou psicóloga clínica <span class="muted">(CRP 05/81894)</span>.
+          Acredito que a terapia é um encontro: um lugar seguro para olhar para a própria história
+          com curiosidade e cuidado, no seu tempo.
+        </p>
+        <p class="reveal">
+          Atendo adolescentes e adultos, nas modalidades online e presencial, com sessões semanais
+          de 50 minutos. Se você sente que é hora de conversar, vai ser um prazer te receber.
+        </p>
+
+        <ul class="facts reveal" aria-label="Informações do atendimento">
+          <li class="fact">
+            <svg aria-hidden="true"><use href="#sparkle"/></svg>
+            <span><strong>50 min</strong> por sessão</span>
+          </li>
+          <li class="fact">
+            <svg aria-hidden="true"><use href="#sparkle"/></svg>
+            <span><strong>Online</strong> e presencial</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ AGENDA ============ -->
+    <section class="section schedule" id="agenda" aria-labelledby="agenda-titulo">
+      <h2 class="section-title schedule__title reveal" id="agenda-titulo">Agende sua sessão</h2>
+
+      <div class="schedule__panel">
+        <p class="schedule__date" id="selected-date" aria-live="polite">Escolha um dia no calendário</p>
+
+        <div class="slots" id="slots" role="group" aria-labelledby="selected-date">
+          <div class="slots__empty">
+            <svg class="slots__empty-star" aria-hidden="true"><use href="#star-burst"/></svg>
+            <p>Os dias com horários livres brilham no calendário. Toque em um deles para ver os horários disponíveis.</p>
+          </div>
+        </div>
+
+        <p class="agenda-notice" id="agenda-notice" role="alert" hidden></p>
+      </div>
+
+      <div class="calendar reveal" id="calendar">
+        <div class="calendar__head">
+          <div class="calendar__month" aria-live="polite">
+            <span id="cal-month">—</span>
+            <small id="cal-year"></small>
+          </div>
+          <div class="calendar__nav">
+            <button type="button" class="icon-btn" id="cal-prev" aria-label="Mês anterior">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="icon-btn" id="cal-next" aria-label="Próximo mês">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="calendar__weekdays" aria-hidden="true">
+          <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+        </div>
+
+        <div class="calendar__viewport">
+          <div class="calendar__grid" id="cal-grid" role="group" aria-label="Dias do mês"></div>
+        </div>
+
+        <div class="calendar__legend" aria-hidden="true">
+          <span><i class="dot dot--free"></i> Com horários</span>
+          <span><i class="dot dot--off"></i> Indisponível</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LINKS ============ -->
+    <section class="section links" id="links" aria-labelledby="links-titulo">
+      <h2 class="section-title section-title--center reveal" id="links-titulo">Links</h2>
+      <!-- TODO: substituir pelos links reais -->
+      <ul class="link-list">
+        <li class="reveal">
+          <a href="https://instagram.com/" target="_blank" rel="noopener">
+            <svg class="link-list__star" aria-hidden="true"><use href="#star-burst"/></svg>
+            <span class="link-list__text">
+              <span class="link-list__label">Instagram</span>
+              <span class="link-list__url">instagram.com/pulsarpsicologia</span>
+            </span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a href="https://wa.me/5522992332096" target="_blank" rel="noopener">
+            <svg class="link-list__star" aria-hidden="true"><use href="#star-burst"/></svg>
+            <span class="link-list__text">
+              <span class="link-list__label">WhatsApp</span>
+              <span class="link-list__url">Fale comigo diretamente</span>
+            </span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a href="mailto:isisguimaraes.psi@gmail.com">
+            <svg class="link-list__star" aria-hidden="true"><use href="#star-burst"/></svg>
+            <span class="link-list__text">
+              <span class="link-list__label">E-mail</span>
+              <span class="link-list__url">isisguimaraes.psi@gmail.com</span>
+            </span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a href="https://cadastro.cfp.org.br/" target="_blank" rel="noopener">
+            <svg class="link-list__star" aria-hidden="true"><use href="#star-burst"/></svg>
+            <span class="link-list__text">
+              <span class="link-list__label">Cadastro Nacional de Psicólogos</span>
+              <span class="link-list__url">cadastro.cfp.org.br</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <svg class="footer__star" aria-hidden="true"><use href="#star-main"/></svg>
+    <p>Pulsar Psicologia · Isis · CRP 05/81894</p>
+    <p class="muted">Em caso de emergência, ligue 188 (CVV) ou 192 (SAMU).</p>
+  </footer>
+
+  <!-- ============ MODAL DE AGENDAMENTO ============ -->
+  <dialog class="modal" id="booking-modal" aria-labelledby="modal-title">
+    <div class="modal__body" id="modal-form-view">
+      <button type="button" class="modal__close icon-btn" data-close aria-label="Fechar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+
+      <h2 class="modal__title" id="modal-title">Confirmar agendamento</h2>
+      <div class="modal__summary">
+        <svg aria-hidden="true"><use href="#sparkle"/></svg>
+        <span id="modal-summary">—</span>
+      </div>
+
+      <form id="booking-form" novalidate>
+        <div class="field">
+          <label for="f-name">Nome completo</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required minlength="3">
+          <span class="field__error" aria-live="polite"></span>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-phone">WhatsApp</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000" required>
+            <span class="field__error" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+            <span class="field__error" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <fieldset class="field">
+          <legend>Modalidade</legend>
+          <div class="segmented">
+            <label><input type="radio" name="mode" value="Online" checked><span>Online</span></label>
+            <label><input type="radio" name="mode" value="Presencial"><span>Presencial</span></label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="f-notes">Quer contar algo antes? <span class="muted">(opcional)</span></label>
+          <textarea id="f-notes" name="notes" rows="3" maxlength="500"></textarea>
+        </div>
+
+        <!-- armadilha para robôs: escondido de pessoas e leitores de tela -->
+        <div class="hp" aria-hidden="true">
+          <label for="f-website">Não preencha</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+
+        <button type="submit" class="btn btn--primary btn--block" id="submit-btn">
+          <span class="btn__label">Confirmar horário</span>
+          <span class="btn__spinner" aria-hidden="true"></span>
+        </button>
+        <p class="modal__note muted">Seus dados são usados apenas para o contato sobre a sessão.</p>
+      </form>
+    </div>
+
+    <div class="modal__body modal__success" id="modal-success-view" hidden>
+      <div class="success-star" aria-hidden="true">
+        <svg><use href="#star-main"/></svg>
+        <i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <h2 class="modal__title" tabindex="-1" id="success-title">Horário reservado!</h2>
+      <p id="success-text">—</p>
+      <div class="modal__actions">
+        <a class="btn btn--primary" id="success-whatsapp" href="#" target="_blank" rel="noopener">Avisar no WhatsApp</a>
+        <button type="button" class="btn btn--ghost" data-close>Fechar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/starfield.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
