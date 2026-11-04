@@ -103,7 +103,7 @@ Se aparecer outra coisa, veja [Quando algo não funciona](#quando-algo-não-func
 - **`Bloqueios`**: data (e horário, opcional) para fechar um dia ou um horário pontual.
 - **`Agendamentos`**: preenchida pelo site. Mude o **Status** para `cancelado` para liberar o horário.
 
-Mais detalhes em [Como a psicóloga usa a planilha](#como-a-psicóloga-usa-a-planilha).
+Mais detalhes no [Guia de uso da planilha](#guia-de-uso-da-planilha).
 
 ### Alterou o `Code.gs`? Publique uma **nova versão** (mesma URL)
 
@@ -138,7 +138,7 @@ No navegador, o console do site mostra `[Pulsar] agenda: CÓDIGO — detalhe`.
 ## Desenvolvimento
 
 ```bash
-npm test             # 70 testes: regras da agenda, segurança, js/api.js e o site no Chrome
+npm test             # 71 testes: regras da agenda, segurança, js/api.js e o site no Chrome
 npm run dev:mock     # site local com uma planilha simulada na memória (não usa o Google)
 ```
 
@@ -151,19 +151,55 @@ navegador usa o Chrome instalado (é pulado se não houver).
 
 Em **Settings → Pages**, escolha **Deploy from a branch**, branch `main`, pasta `/ (root)`.
 
-## Como a psicóloga usa a planilha
+## Guia de uso da planilha
 
-| Aba | Para quê |
+Tudo é feito na planilha e vale na hora: o site lê a planilha a cada visita.
+
+### `Horarios`: a semana padrão
+
+Coloque um dia da semana por linha e os horários de início das sessões separados por vírgula.
+
+| Dia da semana | Horários |
 | --- | --- |
-| `Horarios` | Um dia da semana por linha e os horários separados por vírgula (`09:00, 10:00`). |
-| `Bloqueios` | Data (e horário, opcional) para fechar férias, feriados ou um horário pontual. |
-| `Agendamentos` | Preenchida pelo site. Mudar o **Status** para `cancelado` libera o horário de novo. |
+| `Segunda` | `09:00, 10:00, 14:00` |
+| `Quarta` | `13:00, 14:00` |
 
-Status `revisar`: a pessoa (mesmo WhatsApp ou e-mail) já tinha 2 horários futuros. O site responde
-normalmente — para ninguém conseguir descobrir quem é paciente testando dados de outra pessoa —,
-o horário fica reservado e o e-mail chega com `[REVISAR]` no assunto. Confirme ou cancele.
+- Dia sem linha não tem atendimento.
+- Aceita `Segunda`/`seg` e `9`, `9h`, `09:00`.
 
-A cada novo agendamento chega um e-mail na conta dona da planilha (`NOTIFY_BY_EMAIL` em `Code.gs`).
+### `Bloqueios`: folgas, feriados e imprevistos
+
+| Data | Horário | Motivo |
+| --- | --- | --- |
+| `25/12/2026` | *(vazio)* | Natal: fecha **o dia todo** |
+| `10/11/2026` | `14:00` | Fecha **só esse horário** |
+
+- Para fechar um período (ex.: férias), use uma linha por dia.
+- Para reabrir, apague a linha.
+- O motivo é só para você: o site não lê essa coluna.
+
+### `Agendamentos`: as reservas
+
+O site preenche esta aba sozinho, e cada reserva também chega por e-mail.
+No dia a dia, você só mexe na coluna **Status**:
+
+| Status | Significado | O que fazer |
+| --- | --- | --- |
+| `pendente` | Reserva nova | Confirme com a pessoa e mude para `confirmado` |
+| `revisar` | Esse WhatsApp/e-mail já tinha 2+ horários futuros. O e-mail chega com `[REVISAR]` | Verifique e mude para `confirmado` ou `cancelado` |
+| `confirmado` | Sessão combinada | — |
+| `cancelado` | Sessão desmarcada | **O horário volta a aparecer no site** |
+
+Todo status diferente de `cancelado` mantém o horário ocupado.
+Para reservar um horário manualmente (ex.: paciente que marcou pelo WhatsApp), adicione uma linha com data e horário.
+
+### Regras automáticas
+
+O site mostra os próximos 60 dias e não aceita reservas com menos de 12 horas de antecedência.
+Também não permite duas reservas no mesmo horário.
+Esses valores ficam no topo do `Code.gs`.
+
+> Não renomeie as abas nem a linha de cabeçalho, e não apague colunas.
 
 ## Segurança (repositório público)
 
@@ -179,7 +215,7 @@ A cada novo agendamento chega um e-mail na conta dona da planilha (`NOTIFY_BY_EM
 - **Contra abuso**: campo-armadilha para robôs, no máximo 15 agendamentos por hora e, a partir do
   3º horário futuro do mesmo WhatsApp/e-mail, status `revisar` (ajuste no topo do `Code.gs`).
 - **O site nunca revela se alguém já é paciente**: a resposta é sempre a mesma.
-- Os dados de pacientes ficam só na planilha e no e-mail da psicóloga. Mantenha a planilha
+- Os dados de pacientes ficam só na planilha e no e-mail da conta dona dela. Mantenha a planilha
   sem compartilhamento e a conta Google com verificação em duas etapas.
 - Para cortar o acesso a qualquer momento: **Implantar → Gerenciar implantações → Arquivar**.
 

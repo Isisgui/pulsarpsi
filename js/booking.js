@@ -350,7 +350,7 @@
   /* ---------- Envio ---------- */
   els.form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const inputs = [...els.form.querySelectorAll("input[name]:not([type=radio])")];
+    const inputs = [...els.form.querySelectorAll("input[name]")];
     const valid = inputs.map(validateInput).every(Boolean);
     if (!valid) {
       els.form.querySelector("[aria-invalid=true]").focus();
@@ -364,7 +364,7 @@
       name: f.name.value.trim(),
       phone: f.phone.value.trim(),
       email: f.email.value.trim(),
-      mode: f.mode.value,
+      mode: "Online", // atendimento apenas online
       notes: f.notes.value.trim(),
       website: f.website.value, // armadilha para robôs: pessoas não veem esse campo
     };
@@ -397,7 +397,7 @@
       `${first}, sua sessão ficou para ${when}. ` +
       `Vou confirmar pelo WhatsApp ou e-mail em breve.`;
 
-    const msg = `Olá, Isis! Acabei de agendar uma sessão pelo site para ${when} (${booking.mode}). Meu nome é ${booking.name}.`;
+    const msg = `Olá, Isis! Acabei de agendar uma sessão pelo site para ${when} (online). Meu nome é ${booking.name}.`;
     els.successWhats.href = `https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(msg)}`;
 
     els.formView.hidden = true;

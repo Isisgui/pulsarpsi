@@ -24,7 +24,7 @@
  * e `teste` (mostra o diagnóstico). As demais terminam em "_" e ficam ocultas.
  */
 
-var VERSION = '2026-11-02.3';
+var VERSION = '2026-11-03.1';
 
 var DAYS_AHEAD = 60;              // até quantos dias à frente o site mostra
 var MIN_NOTICE_HOURS = 12;        // antecedência mínima para agendar
@@ -36,7 +36,7 @@ var NOTIFY_BY_EMAIL = true;       // e-mail para a dona da planilha a cada agend
 // descobre, testando o WhatsApp/e-mail de outra pessoa, se ela é paciente.
 var MAX_ACTIVE_PER_CONTACT = 2;   // agendamentos futuros ativos por WhatsApp/e-mail
 var MAX_BOOKINGS_PER_HOUR = 15;   // teto geral de novos agendamentos por hora
-var MODES = ['Online', 'Presencial'];
+var MODES = ['Online'];          // atendimento apenas online
 
 var SHEET_HOURS = 'Horarios';
 var SHEET_BLOCKS = 'Bloqueios';

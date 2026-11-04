@@ -266,6 +266,7 @@ describe("agendamento", () => {
     "e-mail inválido": { email: "ana@" },
     "e-mail enorme": { email: "a".repeat(250) + "@x.com" },
     "modalidade inventada": { mode: "Híbrido" },
+    "presencial (só online)": { mode: "Presencial" },
     "observações não-texto": { notes: { a: 1 } },
     "observações enormes": { notes: "x".repeat(1001) },
   };
